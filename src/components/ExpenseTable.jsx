@@ -1,5 +1,3 @@
-import React from "react";
-//nasaA point: 3
 export default function ExpenseTable({ expenses }) {
   return (
     <table className="expense-table">
@@ -42,7 +40,6 @@ export default function ExpenseTable({ expenses }) {
         </tr>
       </thead>
       <tbody>
-        {/* nasaA point: 4 */}
         {expenses.map(({ id, category, title, amount }) => (
           <tr key={id}>
             <td>{title}</td>

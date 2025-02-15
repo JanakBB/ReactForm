@@ -1,30 +1,27 @@
-import React from "react";
-// nasaC point: 2
-export default function ExpenseForm({setExpenses}) {
-  // nasaB point: 4
+export default function ExpenseForm({ setExpenses }) {
   const submitHandler = (e) => {
     e.preventDefault();
-    const outPutFormData = {...getFormData(e.target), id: crypto.randomUUID()}
-    // nasaC point: 3
-    setExpenses((preData) => [...preData, outPutFormData])
-    e.target.reset()
+    const outPutFormData = {
+      ...getFormData(e.target),
+      id: crypto.randomUUID(),
+    };
+    setExpenses((preData) => [...preData, outPutFormData]);
+    e.target.reset();
   };
 
   const getFormData = (targetData) => {
-    const data = {}
+    const data = {};
     const formData = new FormData(targetData);
     for (const [key, value] of formData.entries()) {
-      data[key] = value
+      data[key] = value;
     }
-    return data
-  }
+    return data;
+  };
   return (
-    <form
-    // nasaB point: 2
-      className="expense-form" onSubmit={submitHandler}>
+    <form className="expense-form" onSubmit={submitHandler}>
       <div className="input-container">
         <label htmlFor="title">Title</label>
-        <input id="title" name="title"/>
+        <input id="title" name="title" />
       </div>
       <div className="input-container">
         <label htmlFor="category">Category</label>
@@ -43,7 +40,6 @@ export default function ExpenseForm({setExpenses}) {
         <label htmlFor="amount">Amount</label>
         <input id="amount" name="amount" />
       </div>
-      {/* nasaB point: 1 */}
       <button type="submit" className="add-btn">
         Add
       </button>
