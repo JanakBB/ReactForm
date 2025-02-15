@@ -1,31 +1,51 @@
-export default function ExpenseForm({ setExpenses }) {
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const outPutFormData = {
-      ...getFormData(e.target),
-      id: crypto.randomUUID(),
-    };
-    setExpenses((preData) => [...preData, outPutFormData]);
-    e.target.reset();
-  };
+import { useState } from "react";
 
-  const getFormData = (targetData) => {
-    const data = {};
-    const formData = new FormData(targetData);
-    for (const [key, value] of formData.entries()) {
-      data[key] = value;
-    }
-    return data;
+export default function ExpenseForm({ setExpenses }) {
+  const [expense, setExpense] = useState({
+    title: "",
+    category: "",
+    amount: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setExpenses((preData) => [
+      ...preData,
+      { ...expense, id: crypto.randomUUID() },
+    ]);
+
+    setExpense({
+      title: "",
+      category: "",
+      amount: "",
+    });
   };
   return (
-    <form className="expense-form" onSubmit={submitHandler}>
+    <form className="expense-form" onSubmit={handleSubmit}>
       <div className="input-container">
         <label htmlFor="title">Title</label>
-        <input id="title" name="title" />
+        <input
+          id="title"
+          name="title"
+          value={expense.title}
+          onChange={(e) =>
+            setExpense((prevData) => ({ ...prevData, title: e.target.value }))
+          }
+        />
       </div>
       <div className="input-container">
         <label htmlFor="category">Category</label>
-        <select id="category" name="category">
+        <select
+          id="category"
+          name="category"
+          value={expense.category}
+          onChange={(e) =>
+            setExpense((prevData) => ({
+              ...prevData,
+              category: e.target.value,
+            }))
+          }
+        >
           <option value="" hidden>
             Select Category
           </option>
@@ -38,7 +58,14 @@ export default function ExpenseForm({ setExpenses }) {
       </div>
       <div className="input-container">
         <label htmlFor="amount">Amount</label>
-        <input id="amount" name="amount" />
+        <input
+          id="amount"
+          name="amount"
+          value={expense.amount}
+          onChange={(e) =>
+            setExpense((prevData) => ({ ...prevData, amount: e.target.value }))
+          }
+        />
       </div>
       <button type="submit" className="add-btn">
         Add
