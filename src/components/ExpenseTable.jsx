@@ -37,20 +37,23 @@ export default function ExpenseTable({ expenses }) {
               </svg>
             </div>
           </th>
+          <th>Email</th>
         </tr>
       </thead>
       <tbody>
-        {expenses.map(({ id, category, title, amount }) => (
+        {expenses.map(({ id, category, title, amount, email }) => (
           <tr key={id}>
             <td>{title}</td>
             <td>{category}</td>
             <td>₹{amount}</td>
+            <td>{email}</td>
           </tr>
         ))}
         <tr>
           <th>Total</th>
           <th></th>
           <th>₹8100</th>
+          <th></th>
         </tr>
       </tbody>
     </table>
