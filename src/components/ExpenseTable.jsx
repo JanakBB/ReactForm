@@ -37,7 +37,6 @@ export default function ExpenseTable({ expenses }) {
               </svg>
             </div>
           </th>
-          <th>Email</th>
         </tr>
       </thead>
       <tbody>
@@ -46,14 +45,12 @@ export default function ExpenseTable({ expenses }) {
             <td>{title}</td>
             <td>{category}</td>
             <td>₹{amount}</td>
-            <td>{email}</td>
           </tr>
         ))}
         <tr>
           <th>Total</th>
           <th></th>
           <th>₹8100</th>
-          <th></th>
         </tr>
       </tbody>
     </table>
