@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useFilter } from "../hook/useFilter";
 
 export default function ExpenseTable({ expenses }) {
-  const [category, setCategory] = useState("");
+  const [filteredData, setQuery] = useFilter(expenses, (data) => data.category)
+  const total = filteredData.reduce((accumulator, current) => accumulator + current.amount, 0)
 
-  const filteredData = expenses.filter((expense) =>
-    expense.category.toLowerCase().includes(category)
-  );
+  // const [category, setCategory] = useState("");
+  // const filteredData = expenses.filter((expense) =>
+  //   expense.category.toLowerCase().includes(category)
+  // );
 
   return (
     <table className="expense-table">
@@ -13,7 +15,7 @@ export default function ExpenseTable({ expenses }) {
         <tr>
           <th>Title</th>
           <th>
-            <select onClick={(e) => setCategory(e.target.value.toLowerCase())}>
+            <select onClick={(e) => setQuery(e.target.value.toLowerCase())}>
               <option value="">All</option>
               <option value="grocery">Grocery</option>
               <option value="clothes">Clothes</option>
@@ -58,7 +60,7 @@ export default function ExpenseTable({ expenses }) {
         <tr>
           <th>Total</th>
           <th></th>
-          <th>₹8100</th>
+          <th>₹{total}</th>
         </tr>
       </tbody>
     </table>
