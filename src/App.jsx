@@ -7,7 +7,6 @@ import { expensesData } from "./lib/expenseData";
 
 function App() {
   const [expenses, setExpenses] = useState(expensesData)
-  console.log(expenses)
   return (
     <main>
       <h1>Track Your Expense</h1>
