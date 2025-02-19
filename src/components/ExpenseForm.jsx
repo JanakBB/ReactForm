@@ -15,8 +15,8 @@ export default function ExpenseForm({
     title: [
       { required: true, message: "Please enter title!" },
       {
-        minLength: true,
-        message: "Title should be at least 5 characters long!",
+        minLength: 2,
+        message: "Title should be at least 2 characters long!",
       },
     ],
     category: [{ required: true, message: "Please enter category!" }],
@@ -38,7 +38,7 @@ export default function ExpenseForm({
           errorData[key] = rule.message;
           return true;
         }
-        if (rule.minLength && value.length < 5) {
+        if (rule.minLength && value.length < rule.minLength) {
           errorData[key] = rule.message;
           return true;
         }

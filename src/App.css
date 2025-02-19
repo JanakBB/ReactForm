@@ -124,6 +124,10 @@ main {
     background-color: #ddd;
 }
 
+.clear-sort{
+    cursor: pointer;
+}
+
 .error {
     font-size: 12px;
     color: red;
