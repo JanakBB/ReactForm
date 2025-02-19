@@ -88,16 +88,6 @@ export default function ExpenseForm({
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
-
-    if (name === "amount") {
-      if (/^(0|[1-9]\d*)(\.\d+)?$/.test(value)) {
-        setExpense((prevState) => ({
-          ...prevState,
-          [name]: value,
-        }));
-      }
-      return
-    }
     setExpense((prevState) => ({
       ...prevState,
       [name]: value,
