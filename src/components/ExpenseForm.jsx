@@ -20,7 +20,13 @@ export default function ExpenseForm({
       },
     ],
     category: [{ required: true, message: "Please enter category!" }],
-    amount: [{ required: true, message: "Please enter amount!" }],
+    amount: [
+      { required: true, message: "Please enter amount!" },
+      {
+        pattern: /^(0|[1-9]\d*)(\.\d+)?$/,
+        message: "Please enter a valid number!",
+      },
+    ],
   };
 
   const validation = (formData) => {
@@ -35,6 +41,9 @@ export default function ExpenseForm({
         if (rule.minLength && value.length < 5) {
           errorData[key] = rule.message;
           return true;
+        }
+        if (rule.pattern && !rule.pattern.test(value)) {
+          errorData[key] = rule.message;
         }
       });
     });
@@ -78,7 +87,17 @@ export default function ExpenseForm({
   };
 
   const onChangeHandler = (e) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
+
+    if (name === "amount") {
+      if (/^(0|[1-9]\d*)(\.\d+)?$/.test(value)) {
+        setExpense((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+      }
+      return
+    }
     setExpense((prevState) => ({
       ...prevState,
       [name]: value,
