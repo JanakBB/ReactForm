@@ -6,6 +6,8 @@ export default function ContextMenu({
   expenses,
   setExpenses,
   rowId,
+  setExpense,
+  setEditingRowId
 }) {
   if (!menuPosition?.left) return;
   return (
@@ -14,7 +16,11 @@ export default function ContextMenu({
       style={menuPosition}
       onClick={() => setMenuPosition({})}
     >
-      <div>
+      <div onClick={() => {
+        const {title, category, amount} = expenses.find((expense) => expense.id === rowId)
+        setExpense({title, category, amount})
+        setEditingRowId(rowId)
+      }}>
         <FaEdit />
         Edit
       </div>

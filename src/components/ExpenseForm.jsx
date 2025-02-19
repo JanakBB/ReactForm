@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Select from "./Select";
 
-export default function ExpenseForm({ setExpenses }) {
-  const [expense, setExpense] = useState({
-    title: "",
-    category: "",
-    amount: "",
-  });
-
+export default function ExpenseForm({
+  setExpenses,
+  expense,
+  setExpense,
+  editingRowId,
+  setEditingRowId,
+}) {
   const [errors, setErrors] = useState({});
 
   const validationConfig = {
     title: [
       { required: true, message: "Please enter title!" },
-      { minLength: 5, message: "Title should be at least 5 characters long!" },
+      {
+        minLength: true,
+        message: "Title should be at least 5 characters long!",
+      },
     ],
     category: [{ required: true, message: "Please enter category!" }],
     amount: [{ required: true, message: "Please enter amount!" }],
-   
   };
 
   const validation = (formData) => {
@@ -36,7 +38,6 @@ export default function ExpenseForm({ setExpenses }) {
         }
       });
     });
-
     setErrors(errorData);
     return errorData;
   };
@@ -47,6 +48,24 @@ export default function ExpenseForm({ setExpenses }) {
     const validationResult = validation(expense);
     if (Object.keys(validationResult).length) return;
 
+    if (editingRowId) {
+      setExpenses((prevData) =>
+        prevData.map((pD) => {
+          if (pD.id === editingRowId) {
+            return { ...expense, id: editingRowId };
+          }
+          return pD;
+        })
+      );
+      setEditingRowId("");
+      setExpense({
+        title: "",
+        category: "",
+        amount: "",
+      });
+      return;
+    }
+
     setExpenses((prevState) => [
       ...prevState,
       { ...expense, id: crypto.randomUUID() },
@@ -54,7 +73,7 @@ export default function ExpenseForm({ setExpenses }) {
     setExpense({
       title: "",
       category: "",
-      amount: ""
+      amount: "",
     });
   };
 
@@ -95,7 +114,7 @@ export default function ExpenseForm({ setExpenses }) {
         onchange={onChangeHandler}
         error={errors.amount}
       />
-      <button className="add-btn">Add</button>
+      <button className="add-btn">{editingRowId ? "Save" : "Add"}</button>
     </form>
   );
 }
