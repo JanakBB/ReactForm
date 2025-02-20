@@ -6,6 +6,8 @@ export default function ExpenseTable({ expenses, setExpenses, setExpense, setEdi
   const [filteredData, setQuery] = useFilter(expenses, (data) => data.category);
   const [menuPosition, setMenuPosition] = useState({});
   const [rowId, setRowId] = useState();
+  const [sortCallback, setSortCallback] = useState(() => () => {})
+  console.log(sortCallback)
   const total = filteredData.reduce(
     (accumulator, current) => accumulator + parseInt(current.amount),
     0
@@ -54,7 +56,7 @@ export default function ExpenseTable({ expenses, setExpenses, setExpense, setEdi
                   viewBox="0 0 384 512"
                   className="arrow up-arrow"
                   onClick={() => {
-                    setExpenses(prevData => [...prevData.sort((a,b) => a.amount - b.amount)])
+                    setSortCallback(() => (a,b) => a.amount - b.amount)
                   }}
                 >
                   <title>Ascending</title>
@@ -66,7 +68,7 @@ export default function ExpenseTable({ expenses, setExpenses, setExpense, setEdi
                   viewBox="0 0 384 512"
                   className="arrow down-arrow"
                   onClick={() => {
-                    setExpenses(prevData => [...prevData.sort((a,b) => b.amount - a.amount)])
+                    setSortCallback(() => (a,b) => b.amount - a.amount)
                   }}
                 >
                   <title>Descending</title>
@@ -77,7 +79,7 @@ export default function ExpenseTable({ expenses, setExpenses, setExpense, setEdi
           </tr>
         </thead>
         <tbody>
-          {filteredData.map(({ id, category, title, amount, email }) => (
+          {filteredData.sort(sortCallback).map(({ id, category, title, amount, email }) => (
             <tr
               key={id}
               onContextMenu={(e) => {
@@ -93,7 +95,9 @@ export default function ExpenseTable({ expenses, setExpenses, setExpense, setEdi
           ))}
           <tr>
             <th>Total</th>
-            <th className="clear-sort">Clear Sort</th>
+            <th className="clear-sort" onClick={() => {
+              setSortCallback(() => () => {})
+            }}>Clear Sort</th>
             <th>₹{total}</th>
           </tr>
         </tbody>
